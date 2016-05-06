@@ -1,0 +1,11 @@
+##########################################
+# REDIRECT ALL TRAFFIC TO "PUBLIC" FOLDER
+##########################################
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    #RewriteBase   /myphpwebsiteuserauth/
+    
+    RewriteRule   ^$      refactored/public/   [L]
+    RewriteRule   ^(.+)$  refactored/public/$1 [L]
+</IfModule>

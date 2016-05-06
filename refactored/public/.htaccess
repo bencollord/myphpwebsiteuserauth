@@ -1,0 +1,13 @@
+#########################################
+# ROUTE REQUESTS THROUGH INDEX.PHP
+#########################################
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase   /myphpwebsiteuserauth/
+    
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    RewriteRule ^(.+)$  refactored/public/index.php?path=$1 [PT,L]
+</IfModule>
