@@ -111,24 +111,13 @@ class Response
    */
   protected $statusCode;
 
-  public function __construct($code, $message = null)
+  public function __construct($code = 200)
   {
-    if (!array_key_exists($code, self::statuses)) {
+    if (!array_key_exists($code, self::$statuses)) {
       throw new InvalidArgumentException("$code is not a valid HTTP status code.");
     }
 
     $this->statusCode = $code;
-  }
-
-  /**
-   * @param int    $code
-   * @param string $message
-   */
-  public function changeStatus($code, $message = null)
-  {
-    $this->status = new Status($code, $message);
-
-    return $this;
   }
 
   public function redirect($url) 

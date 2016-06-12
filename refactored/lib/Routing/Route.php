@@ -37,7 +37,7 @@ class Route
    */
   public function matches(Url $url)
   {
-    return preg_match($this->pattern, $url);
+    return preg_match($this->pattern, $url->path());
   }
   
   

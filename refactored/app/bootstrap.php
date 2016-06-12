@@ -33,6 +33,10 @@ $map->register('/', function (Request $request) {
   return (new Response())->write('Closure routing works!');
 });
 
-$map->register('/edit', function (Request $request) {
+$map->register('/path', function (Request $request) {
   return (new Response())->write('Route with a path works!');
+});
+
+$map->register('/edit', function (Request $request) {
+  return (new Response())->write('Route with alternate path works!');
 });

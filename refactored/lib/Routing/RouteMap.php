@@ -25,7 +25,7 @@ class RouteMap
    */
   public function register($template, $action)
   {
-    $pattern = '~' . str_replace('/', '\/', $template) . '$~';
+    $pattern = '~' . str_replace('/', '\\/', $template) . '$~';
     $this->routes[] = new Route($pattern, $action);
 
     return $this;
@@ -50,7 +50,7 @@ class RouteMap
       throw new RouteNotFoundException("No route found for $url");
     }
     
-    return $matched[0];
+    return array_shift($matched);
   }
 
 }

@@ -45,9 +45,8 @@ class Kernel
       $route    = $this->routeMap->match($url);
       $response = $route->dispatch($request);  
     } catch (RouteNotFoundException $e) {
-      $response = new Response();
-      $response->setStatusCode(404)
-               ->write("There's nothing here. Sorry!");
+      $response = new Response(404);
+      $response->write("There's nothing here. Sorry!");
     }
     
     return $response;

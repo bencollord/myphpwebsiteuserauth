@@ -25,12 +25,12 @@ class Url
     $domain = defined(DOMAIN_NAME) ? DOMAIN_NAME : $_SERVER['HTTP_HOST'];
     $path   = $_GET['path'] ?? null;
 
-    return new static($domain, '/'. $path);
+    return new static($domain, $path);
   }
 
   public function __toString()
   {
-    return $this->domain . $this->path;
+    return $this->domain . '/' . $this->path;
   }
 
   /**
