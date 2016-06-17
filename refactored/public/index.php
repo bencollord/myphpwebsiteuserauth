@@ -1,16 +1,14 @@
 <?php
 
-use MyCodeLab\Kernel;
+use MyCodeLab\Application;
 use MyCodeLab\Http\{Request, Response};
-use MyCodeLab\System\NotFoundException;
-
 use MyCodeLab\Routing\RouteMap;
 
 require_once '../app/bootstrap.php';
 
+$app      = new Application($map);
 $request  = Request::capture();
-$kernel   = new Kernel($map);
-$response = $kernel->run($request);
+$response = $app->run($request);
 
 $response->send();
 

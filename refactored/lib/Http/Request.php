@@ -15,11 +15,6 @@ class Request
   protected $method;
 
   /**
-   * @var string Request MIME type
-   */
-  protected $contentType;
-
-  /**
    * @var MyCodeLab\Http\Url
    */
   protected $url;
@@ -87,7 +82,7 @@ class Request
    * 
    * @return string  The HTTP request method
    */
-  public function getMethod() 
+  public function method() 
   {
     return $this->method;   
   }
@@ -97,7 +92,7 @@ class Request
    * 
    * @return string|boolean
    */
-  public function getUrl() 
+  public function url() 
   {
     if(isset($this->url)) {
       return $this->url;

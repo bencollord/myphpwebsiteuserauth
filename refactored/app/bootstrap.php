@@ -1,8 +1,6 @@
 <?php
 
 use MyCodeLab\System\ClassLibrary;
-use MyCodeLab\Http\{Request, Response};
-use MyCodeLab\Routing\{Route, RouteMap};
 
 
 // Define configuration constants
@@ -27,16 +25,4 @@ $appCode->register();
 // Define valid URL routes
 // ============================================================================
 
-$map = new RouteMap();
-
-$map->register('/', function (Request $request) {
-  return (new Response())->write('Closure routing works!');
-});
-
-$map->register('/path', function (Request $request) {
-  return (new Response())->write('Route with a path works!');
-});
-
-$map->register('/edit', function (Request $request) {
-  return (new Response())->write('Route with alternate path works!');
-});
+require_once 'routes.php';

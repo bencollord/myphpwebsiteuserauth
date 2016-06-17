@@ -14,7 +14,7 @@ class Connection extends PDO
 {  
   public function __construct($database, $username, $password, $host = 'localhost', $driver = 'mysql')
   {
-    parent::__construct("$driver:host=$host;dbname=$dbName", $username, $password);
+    parent::__construct("$driver:host=$host;dbname=$database", $username, $password);
   }
   
   public function sqlCommand($sql = null)

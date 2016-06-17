@@ -100,7 +100,7 @@ class Post
   }
 
 
-  //   Accessor methods
+  // Accessor methods
   // ===========================================
 
   public function getId()        

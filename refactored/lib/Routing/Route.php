@@ -3,7 +3,7 @@
 namespace MyCodeLab\Routing;
 
 use Closure;
-use MyCodeLab\Http\{Request, Url};
+use MyCodeLab\Http\{Request, Response, Url};
 
 /**
  * Translates a URL into an application action.
@@ -43,7 +43,9 @@ class Route
   
   public function dispatch(Request $request)
   {
-    return call_user_func_array($this->action, [$request]);
+    $response = new Response();
+    
+    return call_user_func_array($this->action, [$request, $response]);
   }
   
 }

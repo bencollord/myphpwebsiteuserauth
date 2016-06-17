@@ -7,21 +7,9 @@ use MyCodeLab\Routing\RouteMap;
 use MyCodeLab\Routing\Exceptions\RouteNotFoundException;
 use MyCodeLab\System\Exceptions\NotFoundException;
 
-/**
- * Represents a web application.
- */
-class Kernel
+
+class Application
 {
-  /**
-   * @var string Current deployment environment.
-   */
-  protected $environment;
-  
-  /**
-   * @var string
-   */
-  protected $root;
-  
   /**
    * @var MyCodeLab\Routing\RouteMap
    */
@@ -40,7 +28,8 @@ class Kernel
    */
   public function run(Request $request)
   {
-    $url = $request->getUrl();
+    $url = $request->url();
+    
     try {
       $route    = $this->routeMap->match($url);
       $response = $route->dispatch($request);  

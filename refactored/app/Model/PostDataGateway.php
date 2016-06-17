@@ -18,6 +18,7 @@ class PostDataGateway
 
   public function __construct() 
   {
+    // @todo: This method is deprecated
     $this->connection = Connection::forge();
   }
 
@@ -54,7 +55,7 @@ class PostDataGateway
       'time_posted' => $postData['postTime'],
       'date_posted' => $postData['postDate'],
       'public'      => $postData['isPublic']
-    ]
+    ];
 
     $result = $command->write($sql, $params)->execute();
     
