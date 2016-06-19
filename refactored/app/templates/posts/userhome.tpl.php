@@ -1,11 +1,11 @@
 <?php echo strftime("%Y %B %d"); ?>
 
 <p>Hello <?= $username; ?>!</p> <!--displays user's name -->
-<a href="users/logout">Click here to logout.</a>
+<a href="/logout">Click here to logout.</a>
 
 <br/>
 
-<form action="posts/add" method="POST">
+<form action="/add" method="POST">
   Add more to list: <input type="text" name="details"/><br/>
   Public post? <input type="checkbox" name="public" value="yes"/><br/>
   <input type="submit" value="Add to list"/>
@@ -28,7 +28,7 @@
       <td align="center"><?= $post->details; ?></td>
       <td align="center"><?= $post->postDate . " - " . $post->postTime; ?></td>
       <td align="center"><?= $post->editDate . " - " . $post->editTime; ?></td>
-      <td align="center"><a href="posts/edit?id=<?= $post->id; ?>">edit</a></td>
+      <td align="center"><a href="/edit/<?= $post->id; ?>">edit</a></td>
       <td align="center"><a href="#" onclick="myFunction(<?= $post->id; ?>)">delete</a></td>
       <td align="center"><?= $post->isPublic; ?></td>
     </tr>

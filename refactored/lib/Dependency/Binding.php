@@ -3,13 +3,12 @@
 namespace MyCodeLab\Dependency;
 
 use Closure;
-use MyCodeLab\System\Object;
 use MyCodeLab\System\NotFoundException;
 
 /**
  * Represents a component binding before being resolved.
  */
-class Binding extends Object
+class Binding
 {
   /**
    * @var string
@@ -21,11 +20,6 @@ class Binding extends Object
    */
   protected $definition;
 
-  /**
-   * @var mixed[]
-   */
-  protected $parameters;
-
   public function __construct($name, $definition)
   {
     $this->name       = $name;
@@ -35,27 +29,20 @@ class Binding extends Object
   /**
    * @return string
    */
-  public function getName()
+  public function name()
   {
     return $thid->name;
-  }
-
-  /**
-   * @return string|array|Closure
-   */
-  public function getDefinition()
-  {
-    return $this->definition;
   }
 
   /**
    * @throws NotFoundException if component cannot be resolved.
    * @return mixed
    */
-  public function forge()
+  public function forge(array $args = array())
   {
     try {
-      return $this->definition();
+      $definition = $this->definition;
+      return $definition($args);
     } catch (Exception $e) {
       throw new NotFoundException("Component $this->name could not be resolved.", 0, $e); 
     } 

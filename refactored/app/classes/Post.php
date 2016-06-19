@@ -1,6 +1,6 @@
 <?php
 
-namespace MyPhpWebsiteUserAuth\Model;
+namespace MyPhpWebsiteUserAuth;
 
 use DateTime;
 use DomainException;
@@ -31,33 +31,6 @@ class Post
    * @var bool
    */
   protected $isPublic;
-
-  /**
-   * Finds the first Post matching the specified criteria
-   * 
-   * @param string $field  The property you want to search by.
-   * @param mixed  $value  The criteria to match.
-   *                                       
-   * @return Post|false
-   */
-  public static function load($id)
-  {
-    $result = (new PostDataGateway())->select('id', $id);
-
-    if ($result->isEmpty()) {
-      return false; 
-    }
-
-    $post = new Post();
-
-    $post->id       = $result['id'];
-    $post->details  = $result['details'];
-    $post->postTime = new DateTime($result['date_posted'] . ' ' . $result['time_posted']);
-    $post->editTime = new DateTime($result['date_edited'] . ' ' . $result['time_edited']);
-    $post->isPublic = $result['public'];
-
-    return $post;
-  }
 
   /**                                     
    * @return Post[]|false
@@ -94,81 +67,78 @@ class Post
     return $posts;
   }
 
-  public function __construct()
+  public function __construct(PostDataGateway $gateway, $id = null)
   {
-    $this->gateway = new PostDataGateway();
-  }
+    $this->gateway = $gateway;
+    $this->id      = $id;
 
+    if (!empty($id)) {
+      $this->load($id);
+    }
+  }
 
   // Accessor methods
   // ===========================================
 
-  public function getId()        
+
+  /**
+   * @return int
+   */
+  public function id()        
   { 
     return $this->id;      
   }
 
-  public function getDetails()   
+  /**
+   * @return string
+   */
+  public function details()   
   {
     return $this->details;  
   }
 
   /**
-   * Sets content and timestamps Post
-   * 
-   * @param string $details  Post content
-   *                              
-   * @return $this
+   * @return DateTime
    */
-  public function setDetails($details) 
-  { 
-    $timestamp = new DateTime();
-
-    $this->details  = $details;
-    $this->editTime = $timestamp;
-    $this->postTime = $this->postTime ?: $timestamp;
-
-    return $this;
-  }
-
-  public function getPostTime()  
+  public function postTime()  
   {
     return $this->postTime; 
   }
 
-  public function getEditTime()  
+  /**
+   * @return DateTime
+   */
+  public function editTime()  
   {
     return $this->editTime; 
   }
 
-  public function getPublic()  
-  {
-    return $this->isPublic; 
-  }
-
-
   /**
-   * Set access level of post. 
-   * 
-   * @param bool $value                         
-   *                                    
-   * @return $this
-   */
-  public function setPublic($value) 
-  { 
-    $this->isPublic = (bool)$value;
-
-    return $this;
-  }
-
-  /**
-   * Alias for getPublic
-   * 
    * @return bool
    */
   public function isPublic()  
   {
     return $this->isPublic; 
+  }
+
+  /**
+   * Sets content and access level with a timestamp.
+   *  
+   * @param string $details  Post content
+   * @param bool   $public
+   *                              
+   * @return $this
+   */
+  public function compose($details, $public = true) 
+  { 
+    $timestamp = new DateTime();
+
+    $this->details  = $details;
+    $this->isPublic = (bool) $public;
+    $this->editTime = $timestamp;
+    $this->postTime = $this->postTime ?: $timestamp;
+
+    return $this;
   }
 
   public function save()
@@ -185,19 +155,33 @@ class Post
       'editTime' => $this->editTime->format('Y-m-d'),
       'editDate' => $this->editTime->format('H:i:s'),
       'isPublic' => $this->isPublic
-    ]
+    ];
 
-      // Check if new or existing post
-      if (isset($this->id)) {
-        $this->gateway->update($data);
-      } else {
-        $this->gateway->insert($data);
-      }
+    // Check if new or existing post
+    if (isset($this->id)) {
+      $this->gateway->update($data);
+    } else {
+      $this->gateway->insert($data);
+    }
   }
 
   public function delete() 
   {
     $this->gateway->delete($this->id);
+  }
+
+  private function load($id)
+  {
+    $result = $this->gateway->select('id', $id);
+
+    if (empty($result)) {
+      throw new NotFoundException("No post exists with the id $id");
+    }
+
+    $this->details  = $result['details'];
+    $this->postTime = new DateTime($result['date_posted'] . ' ' . $result['time_posted']);
+    $this->editTime = new DateTime($result['date_edited'] . ' ' . $result['time_edited']);
+    $this->isPublic = $result['public'];
   }
 
 }

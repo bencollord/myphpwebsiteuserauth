@@ -1,10 +1,10 @@
 <h2>Edit listtbl data</h2>
 
 <p>Hello <?= $username; ?>!</p>
-<a href="users/logout">Click here to logout.</a>
+<a href="/logout">Click here to logout.</a>
 <br/>
 <br/>
-<a href="users/home">Return to user Home Page.</a>
+<a href="/home">Return to user Home Page.</a>
 <h2 align="center">Currently Selected Record</h2>
 
 <?php if ($post): ?>
@@ -28,7 +28,7 @@
   </table>
   <br/>
 
-  <form action="posts/edit" method="POST">
+  <form action="/edit" method="POST">
     Enter new detail:
     <input type="text" name="details" />
     <br/> Public post?

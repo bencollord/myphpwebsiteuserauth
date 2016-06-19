@@ -2,7 +2,7 @@
 <a href="index.php">Return to Home Page</a>
 <br/>
 <br/>
-<form action="users/login" method="post">
+<form action="/login" method="post">
     Enter Username:
     <input type="text" name="username" required="required" />
     <br/> Enter Password:

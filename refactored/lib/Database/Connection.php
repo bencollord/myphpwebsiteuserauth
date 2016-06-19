@@ -17,9 +17,9 @@ class Connection extends PDO
     parent::__construct("$driver:host=$host;dbname=$database", $username, $password);
   }
   
-  public function sqlCommand($sql = null)
+  public function command($sql = null)
   {
-    $command = new SqlCommand($this);
+    $command = new Command($this);
     
     if ($sql) {
       $command->write($sql);
@@ -43,37 +43,6 @@ class Connection extends PDO
     }
     
     return $statement->fetchAll();
-  }
-  
-  /* ===================================================== */
-  /* -----------------    Deprecated    ------------------ */
-  /* ===================================================== */
-  
-  /**
-   * Get database connection based on config constants
-   * 
-   * @deprecated Will be replaced with dependency injection.
-   * 
-   * @return self
-   */
-  public static function forge($fetchMode = PDO::FETCH_ASSOC) 
-  {
-    $driver   = DB_DRIVER;
-    $host     = DB_HOST;
-    $dbName   = DB_NAME;
-    $username = DB_USER;
-    $password = DB_PASS;
-    
-    try {
-      $instance = new static("$driver:host=$host;dbname=$dbName", $username, $password);
-      
-      $instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $instance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, $fetchMode);
-    } catch (PDOException $e) {
-      throw new Exception('Error connecting to database ' . $e->getMessage());
-    }
-    
-    return $instance;
   }
   
 }

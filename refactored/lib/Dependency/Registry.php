@@ -3,7 +3,8 @@
 namespace MyCodeLab\Dependency;
 
 use Closure;
-use MyCodeLab\System\{Object, NotFoundException};
+use MyCodeLab\System\NotFoundException;
+use MyCodeLab\Dependency\Exceptions\UnresolvedComponentException;
 
 /**
  * Dependency injection container.
@@ -16,41 +17,46 @@ use MyCodeLab\System\{Object, NotFoundException};
  *        - Build from arrays
  *        - Define a factory method to replace constructor
  */
-class Registry extends Object
+class Registry
 {
   /**
-   * @var ComponentBinding[] Component resolutions.
+   * @var Binding[] Component resolutions.
    */
-  protected $bindings;
+  protected $definitions = array();
   
   /**
    * @var array Shared component instances.
    */
-  protected $instances;
+  protected $instances = array();
 
   public function bind($key, Closure $resolution, $shared = false)
   {
-    $binding = new ComponentBinding($key, $resolution);
-    
-    if ($shared === true) {
-      $this->instances[$key] = $binding->forge();
-    }
+    // Make Registry available inside resolution closure.
+    $resolution = $resolution->bindTo($this);
+    $binding    = new Binding($key, $resolution);
 
-    $this->components[$key] = new ComponentBinding($key, $resolution);
+    $this->definitions[$key] = compact('binding', 'shared');
     
     return $this;
   }
 
-  public function load($key)
+  public function load($key, $args = array())
   {
     if (array_key_exists($key, $this->instances)) {
       return $this->instances[$key];
     }
-    if (array_key_exists($key, $this->bindings)) {
-      return $this->components[$key]->forge();
+    if (!array_key_exists($key, $this->definitions)) {
+      throw new UnresolvedComponentException("No component with name '$key' has been registered.");
     }
     
-    throw new UnresolvedComponentException("No component with name '$key' has been registered.");
+    $definition  = $this->definitions[$key];
+    $instance    = $definition['binding']->forge($args);
+    
+    if ($definition['shared'] === true) {
+      $this->instances[$key] = $instance;
+    }
+    
+    return $instance;
   }
 
 }

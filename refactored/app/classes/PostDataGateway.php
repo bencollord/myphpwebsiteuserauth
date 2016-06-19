@@ -1,8 +1,8 @@
 <?php
 
-namespace MyPhpWebsiteUserAuth\Model;
+namespace MyPhpWebsiteUserAuth;
 
-use MyCodeLab\Database\Connection;
+use MyCodeLab\Database\Connection as DbConnection;
 
 class PostDataGateway
 {
@@ -16,10 +16,9 @@ class PostDataGateway
    */
   protected $connection;
 
-  public function __construct() 
+  public function __construct(DbConnection $connection) 
   {
-    // @todo: This method is deprecated
-    $this->connection = Connection::forge();
+    $this->connection = $connection;
   }
 
   /**
@@ -31,7 +30,7 @@ class PostDataGateway
   {
     $sql      = "SELECT id, details, date_posted, time_posted, date_edited, time_edited, public " . 
                 "FROM " . self::TABLE;
-    $command  = $this->connection->sqlCommand();
+    $command  = $this->connection->command();
     
     $command->write($sql);
     
@@ -46,7 +45,7 @@ class PostDataGateway
 
   public function insert($postData)
   {
-    $command = $this->connection->sqlCommand();
+    $command = $this->connection->command();
     
     $sql     = "INSERT INTO " . self::TABLE . "(details, date_posted, time_posted, date_edited, time_edited, public)" . "VALUES (:details, :date_posted, :time_posted, :public)";
     
@@ -66,7 +65,7 @@ class PostDataGateway
 
   public function update($postData) 
   {
-    $command = $this->connection->sqlCommand();
+    $command = $this->connection->command();
     
     $sql     = "UPDATE" . self::TABLE . " " .
                "SET details=:details, date_edited=:date, time_edited=:time, public=:public " .
@@ -90,7 +89,7 @@ class PostDataGateway
   public function delete($id) 
   {
     $sql     = "DELETE FROM " . self::TABLE  . " WHERE id=:id";
-    $command = $this->connection->sqlCommand($sql);
+    $command = $this->connection->command($sql);
     $result  = $command->bind(['id' => $id])->execute();
     
     if ($result->affectedRows() == 0) {

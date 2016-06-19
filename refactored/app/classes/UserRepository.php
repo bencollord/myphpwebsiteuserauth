@@ -1,6 +1,6 @@
 <?php
 
-namespace MyPhpWebsiteUserAuth\Model;
+namespace MyPhpWebsiteUserAuth;
 
 use MyCodeLab\Auth\Exceptions\UserNotFoundException;
 
@@ -17,7 +17,7 @@ class UserRepository
   {
     $sql      = "SELECT id, username, password FROM " . static::TABLE . " WHERE username=:username";
     $params   = ['username' => $username];
-    $command  = $this->database->sqlCommand();
+    $command  = $this->database->command();
     
     $result = $command->write($sql, $params)->execute();
 

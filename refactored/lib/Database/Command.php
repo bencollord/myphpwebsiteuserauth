@@ -5,7 +5,7 @@ namespace MyCodeLab\Database;
 /**
  * Represents a SQL DML command.
  */
-class SqlCommand
+class Command
 {  
   /**
    * @var Connection Link to database

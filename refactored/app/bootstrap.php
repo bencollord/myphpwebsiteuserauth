@@ -1,7 +1,6 @@
 <?php
 
-use MyCodeLab\System\ClassLibrary;
-
+use MyCodeLab\Application;
 
 // Define configuration constants
 // ============================================================================
@@ -12,17 +11,20 @@ require_once 'config.php';
 // Register class libraries for autoloading
 // ============================================================================
 
-require_once '../lib/System/ClassLibrary.php';
+require_once 'autoload.php';
 
-$framework = new ClassLibrary('MyCodeLab', 'lib');
-$appCode   = new ClassLibrary('MyPhpWebsiteUserAuth', 'app');
 
-$framework->register();
-$appCode->register();
+// Register components
+// ============================================================================
 
+$registry = require_once 'components.php';
 
 
 // Define valid URL routes
 // ============================================================================
 
-require_once 'routes.php';
+$map = require_once 'routes.php';
+
+$app = new Application($map, $registry);
+
+return $app;

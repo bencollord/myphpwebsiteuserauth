@@ -8,11 +8,6 @@ use MyCodeLab\Routing\Exceptions\RouteNotFoundException;
 class RouteMap
 { 
   /**
-   * @var MyCodeLab\Routing\Factory
-   */
-  protected $factory;
-
-  /**
    * @var array
    */
   protected $routes;

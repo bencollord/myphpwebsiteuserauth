@@ -1,5 +1,5 @@
-    <a href="users/login">Click here to login</a><br/>
-    <a href="users/register">Click here to register</a>
+    <a href="<?= DOMAIN_NAME; ?>/login/form">Click here to login</a><br/>
+    <a href="<?= DOMAIN_NAME; ?>/register/form">Click here to register</a>
 
     <h2 class="text-center">List</h2>
     <table width="100%" border="1px">

@@ -2,30 +2,17 @@
 
 namespace MyCodeLab\View;
 
-class Page extends View implements Renderable
+class Page extends View
 {
   protected $title;
   protected $metaTags    = array();
   protected $stylesheets = array();
   protected $scripts     = array();
-
-  /**
-   * @return string $this->title
-   */
-  public function getTitle() 
+  
+  public function __construct($template, $title = null)
   {
-    return $this->title;
-  }
-
-  /**
-   * @param string $title
-   * @return $this
-   */
-  public function setTitle($title)
-  {
-    $this->title = $title;
-    
-    return $this;
+    $this->title = $title ?? DOMAIN_NAME;
+    parent::__construct($template);
   }
   
   /**
@@ -33,9 +20,9 @@ class Page extends View implements Renderable
    * 
    * @return $this
    */
-  public function addMetaTag($name, $value) 
+  public function addMeta($name, $value) 
   { 
-    // @todo: method body
+    $this->metaTags[$name] = $value;
     
     return $this; 
   }
@@ -47,7 +34,11 @@ class Page extends View implements Renderable
    */
   public function addStylesheet($path, $handle = null) 
   { 
-    // @todo: method body
+    if ($handle != null) {
+      $this->stylesheets[$handle] = $path;
+    } else {
+      $this->stylesheets[] = $path;
+    }
     
     return $this; 
   }
@@ -59,7 +50,11 @@ class Page extends View implements Renderable
    */
   public function addScript($path, $handle = null) 
   { 
-    // @todo: method body
+    if ($handle != null) {
+      $this->scripts[$handle] = $path;
+    } else {
+      $this->scripts[] = $path;
+    }
     
     return $this; 
   }

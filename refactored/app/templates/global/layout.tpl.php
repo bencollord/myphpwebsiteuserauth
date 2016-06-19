@@ -1,9 +1,8 @@
 <?php
 
-$this->addStylesheet(ASSET_PATH . 'css/bootstrap.min.css');
-
-$this->addScriptASSET_PATH . 'js/jquery.min.js')
-     ->addScriptASSET_PATH . 'js/bootstrap.min.js');
+$this->addStylesheet('css/bootstrap.min.css')
+     ->addScript('js/jquery.min.js')
+     ->addScript('js/bootstrap.min.js')
 
 ?>
 
@@ -24,7 +23,7 @@ $this->addScriptASSET_PATH . 'js/jquery.min.js')
     <?php endforeach; ?>
     
   </head>
-  <body>
+  <body class="container">
     
     <?php if ($header): ?>
       <header>

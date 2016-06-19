@@ -1,6 +1,6 @@
 <?php
 
-namespace MyPhpWebsiteUserAuth\Model;
+namespace MyPhpWebsiteUserAuth;
 
 use MyCodeLab\Database\Connection as Database;
 use MyCodeLab\Auth\Identity;
@@ -74,7 +74,7 @@ class User implements Identity
   {
     $sql      = "INSERT INTO " . static::TABLE . " (username, password) VALUES (:username, :password)";
     $params   = ['username' => $this->username, 'password' => $this->password];
-    $command  = $this->connection->sqlCommand();
+    $command  = $this->connection->command();
     
     if ($this->isRegistered) {
       throw new RegistrationException("There is already a user $username registered");
